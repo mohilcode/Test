@@ -44,8 +44,8 @@ class MainActivity2 : AppCompatActivity() {
     private fun searchAndDisplayImage(query: String?) {
         if (query == null) return
 
-        val apiKey = "AIzaSyCcWrMkcMh9IOPIYlwJjy_vQli80eztVPI"
-        val searchEngineId = "f54aec13a61824a45"
+        val apiKey = "API KEY"
+        val searchEngineId = "ENGINE ID"
 
         ApiClient.googleImageSearchApi.searchImages(apiKey, searchEngineId, query).enqueue(object : Callback<ImageSearchResponse> {
             override fun onResponse(call: Call<ImageSearchResponse>, response: Response<ImageSearchResponse>) {
