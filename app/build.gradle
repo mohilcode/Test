@@ -15,6 +15,17 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+            buildConfigField "String", "ASIN_API_KEY", "\"${properties.getProperty("ASIN_API_KEY")}\""
+            buildConfigField "String", "GOOGLE_API_KEY", "\"${properties.getProperty("GOOGLE_API_KEY")}\""
+            buildConfigField "String", "GOOGLE_ENGINE_ID", "\"${properties.getProperty("GOOGLE_ENGINE_ID")}\""
+            buildConfigField "String", "GPT_API_KEY", "\"${properties.getProperty("GPT_API_KEY")}\""
+            buildConfigField "String", "RAKUTEN_API_KEY", "\"${properties.getProperty("RAKUTEN_API_KEY")}\""
+            buildConfigField "String", "YAHOO_API_KEY", "\"${properties.getProperty("YAHOO_API_KEY")}\""
+
     }
 
     buildTypes {
@@ -40,10 +51,13 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+//    implementation 'androidx.core:core-ktx:+'
+//    implementation 'androidx.core:core-ktx:+'
+//    implementation 'androidx.core:core-ktx:+'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -52,7 +66,12 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'org.jsoup:jsoup:1.14.3'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
+    implementation "com.aallam.openai:openai-client:3.2.3"
+    implementation "io.ktor:ktor-client-android:2.2.4"
+
+
 
 
 

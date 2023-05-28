@@ -12,7 +12,6 @@ interface GoogleImageSearchApi {
         @Query("cx") searchEngineId: String,
         @Query("q") query: String,
         @Query("searchType") searchType: String = "image",
-//        @Query("num") numResults: Int = 1
     ): Call<ImageSearchResponse>
 
 }
