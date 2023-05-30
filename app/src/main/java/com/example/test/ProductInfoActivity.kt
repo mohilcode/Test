@@ -47,11 +47,6 @@ class ProductInfoActivity : AppCompatActivity() {
         }
 
         binding.progressBar.visibility = View.VISIBLE
-        binding.loadWebPageButton.visibility = View.GONE
-        binding.loadWebPageButton.setOnClickListener {
-            loadUrlInWebView(imageUrl ?: "")
-        }
-
         fetchProductInfo(barcodeValue ?: "")
     }
 
@@ -74,21 +69,12 @@ class ProductInfoActivity : AppCompatActivity() {
                     }
                 }
             }
-            if (!isFetchSuccessful) {
-                binding.loadWebPageButton.visibility = View.VISIBLE
-            }
         }
-    }
-
-    private fun loadUrlInWebView(url: String) {
-        binding.webView.visibility = View.VISIBLE
-        binding.webView.loadUrl(url)
     }
 
     private fun displayProductInfo(response: Any?) {
         response?.let {
             isFetchSuccessful = true
-            binding.progressBar.visibility = View.GONE
             val (productName, productDescription) = when (it) {
                 is RakutenResponse -> Pair(it.itemName, it.itemCaption)
                 is YahooResponse -> Pair(it.name, it.description)
@@ -99,22 +85,14 @@ class ProductInfoActivity : AppCompatActivity() {
                 is AsinProductResponse -> Pair(it.product.title, it.product.description)
                 else -> return
             }
-            // Translate product name and description
             lifecycleScope.launch {
                 val gptResponse = gptApiClient.translate("$productName: $productDescription")
                 if (gptResponse != null) {
-                    // Update the UI with the translated text
                     binding.productNameTextView.text = "Product name: $productName"
                     binding.productDescriptionTextView.text = "Product description: ${gptResponse.translatedText}"
+                    binding.progressBar.visibility = View.GONE
                 }
             }
         }
     }
-
-    //...
 }
-
-
-
-
-
