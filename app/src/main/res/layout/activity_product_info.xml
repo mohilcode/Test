@@ -14,43 +14,22 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/loadWebPageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Load Web Page"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/productDescriptionTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/productNameTextView"
+        app:layout_constraintBottom_toTopOf="@+id/productDescriptionTextView" />
 
 
-    <WebView
-        android:id="@+id/webView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
-
-
-
-<TextView
-        android:id="@+id/productNameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Product name:"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.149"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.044" />
+    <TextView
+            android:id="@+id/productNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Product name:"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.149"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.044" />
 
     <TextView
         android:id="@+id/productDescriptionTextView"
@@ -58,12 +37,13 @@
         android:layout_height="wrap_content"
         android:text="Product description:"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.22"
+        app:layout_constraintHorizontal_bias="0.173"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/productNameTextView"
-        app:layout_constraintVertical_bias="0.27" />
+        app:layout_constraintVertical_bias="0.116" />
 
     <ImageView
         android:id="@+id/productImageView"
