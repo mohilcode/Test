@@ -18,7 +18,7 @@ https://github.com/mohilcode/shopsmartscan/assets/112541468/318a0142-97a1-4374-a
 
 ## Live App
 
-To request access to the APK, please visit [here](https://forms.gle/7SBBhRYQHER1F5wS6).
+To request access to the APK, please visit [here](https://forms.gle/a1SdCeoS7CwAu3eo9).
 
 ## Features
 
