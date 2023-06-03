@@ -4,6 +4,18 @@ ShopSmartScan is an innovative Android app aimed at helping foreigners in Japan 
 
 This app currently supports a variety of products, leveraging various e-commerce platforms like Rakuten, Amazon, Yahoo Shopping, etc., to pull relevant product information. In the future, we aim to add more websites and broaden the product information database. 
 
+## Demo
+
+Check out this practical demo of how ShopSmartScan can help a non-Japanese speaker to understand the details of a medicine product in a local pharmacy:
+
+**Scenario:** My friend caught a cold and needed to find a suitable remedy. He went to the local pharmacy, Matsumoto Kiyoshi, to purchase a cold medicine. However, he faced a significant barrier - every product was labeled in Japanese, and he couldn't identify which one was for cold relief.
+
+This is when ShopSmartScan came to the rescue. By simply scanning the barcode of a product he assumed might be cold-related, the app instantly provided him with a detailed English description. This enabled him to make an informed decision, confirming that the medicine was indeed for cold relief.
+
+
+https://github.com/mohilcode/shopsmartscan/assets/112541468/318a0142-97a1-4374-a739-367ac737a018
+
+
 ## Live App
 
 To request access to the APK, please visit [here](https://forms.gle/7SBBhRYQHER1F5wS6).
