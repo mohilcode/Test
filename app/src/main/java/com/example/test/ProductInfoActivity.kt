@@ -87,9 +87,11 @@ class ProductInfoActivity : AppCompatActivity() {
             }
             lifecycleScope.launch {
                 val gptResponse = gptApiClient.translate("$productName: $productDescription")
+//                val gptResponse = gptApiClient.summarize("$productName: $productDescription")
                 if (gptResponse != null) {
                     binding.productNameTextView.text = "Product name: $productName"
                     binding.productDescriptionTextView.text = "Product description: ${gptResponse.translatedText}"
+//                    binding.productDescriptionTextView.text = "Product description: ${gptResponse.summarizedText}"
                     binding.progressBar.visibility = View.GONE
                 }
             }
