@@ -8,6 +8,9 @@ import com.aallam.openai.client.OpenAI
 import com.example.test.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.net.HttpURLConnection
+import java.net.URL
+import org.json.JSONObject
 
 interface GptApi {
     suspend fun translate(text: String): GptResponse?
@@ -15,13 +18,10 @@ interface GptApi {
 
 class GptApiClient: GptApi {
 
-    companion object {
-        private const val CHAT_GPT_API_KEY = BuildConfig.GPT_API_KEY
-    }
-
     @OptIn(BetaOpenAI::class)
     override suspend fun translate(text: String): GptResponse? = withContext(Dispatchers.IO) {
-        val openAI = OpenAI(CHAT_GPT_API_KEY)
+        val apikey = fetchGptApiKey() ?: return@withContext null
+        val openAI = OpenAI(apikey)
         val instruction = "Condense and translate the product's name and description into one short English sentence. Format: 'Product Name: Product Description'. Emphasize essential features; disregard quantity, packaging, or other non-essential details. If no description is available, provide only the translated product name."
         val userMessage = "$instruction\n$text"
 
@@ -50,75 +50,36 @@ class GptApiClient: GptApi {
         }
         return@withContext null
     }
+
+    private suspend fun fetchGptApiKey(): String? = withContext(Dispatchers.IO) {
+        val encryptUtil = EncryptUtil
+
+        val decryptedUrl = BuildConfig.WUpy2M3lmyPQtMj2LyFBdPRT.let { encryptUtil.decrypt(it) }
+        val decryptedToken = BuildConfig.YMNAIjPwiClJnEkLqUzbLTUkM.let { encryptUtil.decrypt(it) }
+
+        val apiUrl = "$decryptedUrl/GPT_API_KEY"
+        val url = URL(apiUrl)
+        val connection = url.openConnection() as HttpURLConnection
+
+        connection.setRequestProperty("Authorization", decryptedToken)
+
+        try {
+            connection.inputStream.bufferedReader().use {
+                val json = it.readText()
+                val jsonObject = JSONObject(json)
+                return@withContext jsonObject.getString("api_key")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            connection.disconnect()
+        }
+
+        return@withContext null
+    }
 }
 
 data class GptResponse(
     val translatedText: String
 )
-
-//package com.example.test.api
-//
-//import com.github.kittinunf.fuel.httpPost
-//import com.github.kittinunf.fuel.gson.responseObject
-//import com.github.kittinunf.result.Result
-//import kotlinx.coroutines.Dispatchers
-//import kotlinx.coroutines.withContext
-//import org.json.JSONObject
-//import com.example.test.BuildConfig
-//import com.google.gson.JsonParser
-//
-//interface GptApi {
-//    suspend fun summarize(text: String): GptResponse?
-//}
-//
-//class GptApiClient: GptApi {
-//
-//    companion object {
-//        private const val COHERE_API_KEY = BuildConfig.GPT_API_KEY
-//    }
-//
-//    override suspend fun summarize(text: String): GptResponse? = withContext(Dispatchers.IO) {
-//        val cohereUrl = "https://api.cohere.ai/summarize"
-//        val headers = mapOf("Authorization" to "Bearer $COHERE_API_KEY")
-//        val body = mapOf(
-//            "model" to "summarize-medium",
-//            "prompt" to text,
-//            "temperature" to 3.5,
-//            "length" to "medium"
-//        )
-//
-//        try {
-//            val (_, response, result) = cohereUrl.httpPost()
-//                .header(headers)
-//                .header("Content-Type", "application/json")
-//                .body(JSONObject(body).toString())
-//                .response()
-//
-//            println("Raw server response: ${String(response.data)}")
-//
-//            when (result) {
-//                is Result.Failure<*> -> {
-//                    val ex = result.getException()
-//                    ex.printStackTrace()
-//                    null
-//                }
-//                is Result.Success<*> -> {
-//                    val dataString = String(result.get())
-//                    val jsonElement = JsonParser.parseString(dataString)
-//                    val summary = jsonElement.asJsonObject.get("output").asJsonObject.get("summary").asString
-//                    return@withContext GptResponse(summary)
-//                }
-//            }
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//        return@withContext null
-//    }
-//
-//}
-//
-//data class GptResponse(
-//    val summarizedText: String
-//)
-
 

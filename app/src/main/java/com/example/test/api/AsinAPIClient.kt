@@ -8,6 +8,8 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
+import java.net.HttpURLConnection
+import java.net.URL
 
 class AsinAPIClient {
 
@@ -17,9 +19,36 @@ class AsinAPIClient {
         })
         .build()
 
+    suspend fun fetchASINApiKey(): String? = withContext(Dispatchers.IO) {
+        val encryptUtil = EncryptUtil
+
+        val decryptedUrl = BuildConfig.WUpy2M3lmyPQtMj2LyFBdPRT.let { encryptUtil.decrypt(it) }
+        val decryptedToken = BuildConfig.YMNAIjPwiClJnEkLqUzbLTUkM.let { encryptUtil.decrypt(it) }
+
+        val apiUrl = "$decryptedUrl/ASIN_API_KEY"
+        val url = URL(apiUrl)
+        val connection = url.openConnection() as HttpURLConnection
+
+        connection.setRequestProperty("Authorization", decryptedToken)
+
+        try {
+            connection.inputStream.bufferedReader().use {
+                val json = it.readText()
+                val jsonObject = JSONObject(json)
+                return@withContext jsonObject.getString("api_key")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            connection.disconnect()
+        }
+
+        return@withContext null
+    }
+
     suspend fun fetchProductInfo(barcode: String): AsinProductResponse? = withContext(Dispatchers.IO) {
 
-        val apiKey = BuildConfig.ASIN_API_KEY
+        val apiKey = fetchASINApiKey() ?: return@withContext null
         val baseUrl = "https://api.asindataapi.com"
 
         val searchUrl = "$baseUrl/request?api_key=$apiKey&type=search&amazon_domain=amazon.co.jp&search_term=$barcode"

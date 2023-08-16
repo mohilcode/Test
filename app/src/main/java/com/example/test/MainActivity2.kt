@@ -5,12 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.test.databinding.ActivityMain2Binding
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.example.test.api.GoogleImageSearchApiClient
 import com.example.test.api.ImageSearchResponse
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
+
 
 class MainActivity2 : AppCompatActivity() {
     private lateinit var binding: ActivityMain2Binding
@@ -46,15 +50,19 @@ class MainActivity2 : AppCompatActivity() {
     private fun searchAndDisplayImage(query: String?) {
         if (query == null) return
 
-        GoogleImageSearchApiClient.searchImages(query) { imageUrls, error ->
-            if (error == null) {
-                this.imageUrls = imageUrls ?: emptyList()
-                showNextImage()
-            } else {
-                Toast.makeText(this@MainActivity2, "Error: ${error.localizedMessage}", Toast.LENGTH_SHORT).show()
+        // Launch a coroutine on the main thread
+        lifecycleScope.launch {
+            GoogleImageSearchApiClient.searchImages(query) { imageUrls, error ->
+                if (error == null) {
+                    this@MainActivity2.imageUrls = imageUrls ?: emptyList()
+                    showNextImage()
+                } else {
+                    Toast.makeText(this@MainActivity2, "Error: ${error.localizedMessage}", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
+
 
     private fun showNextImage() {
         if (imageUrls.isNotEmpty() && currentImageIndex < imageUrls.size) {

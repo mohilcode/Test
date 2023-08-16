@@ -25,6 +25,8 @@
         <activity
             android:name=".MainActivity2"
             android:exported="false" />
+<!--        <activity android:name=".api.TestActivity" />-->
+<!--        android:name=".MainActivity"-->
         <activity
             android:name=".MainActivity"
             android:exported="true">

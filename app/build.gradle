@@ -13,18 +13,12 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
+        buildConfigField("String", "WUpy2M3lmyPQtMj2LyFBdPRT", WUpy2M3lmyPQtMj2LyFBdPRT)
+        buildConfigField("String", "YMNAIjPwiClJnEkLqUzbLTUkM", YMNAIjPwiClJnEkLqUzbLTUkM)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
             Properties properties = new Properties()
             properties.load(project.rootProject.file("local.properties").newDataInputStream())
-
-            buildConfigField "String", "ASIN_API_KEY", "\"${properties.getProperty("ASIN_API_KEY")}\""
-            buildConfigField "String", "GOOGLE_API_KEY", "\"${properties.getProperty("GOOGLE_API_KEY")}\""
-            buildConfigField "String", "GOOGLE_ENGINE_ID", "\"${properties.getProperty("GOOGLE_ENGINE_ID")}\""
-            buildConfigField "String", "GPT_API_KEY", "\"${properties.getProperty("GPT_API_KEY")}\""
-            buildConfigField "String", "RAKUTEN_API_KEY", "\"${properties.getProperty("RAKUTEN_API_KEY")}\""
-            buildConfigField "String", "YAHOO_API_KEY", "\"${properties.getProperty("YAHOO_API_KEY")}\""
 
     }
 
@@ -37,6 +31,7 @@ android {
 
     buildFeatures {
         viewBinding true
+        buildConfig = true
     }
 
 
@@ -70,6 +65,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
     implementation "com.aallam.openai:openai-client:3.3.0"
     implementation "io.ktor:ktor-client-android:2.2.4"
+    implementation 'com.android.volley:volley:1.2.1'
+
 
 
 
