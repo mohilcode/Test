@@ -7,12 +7,8 @@ import com.example.test.databinding.ActivityMain2Binding
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.example.test.api.GoogleImageSearchApiClient
-import com.example.test.api.ImageSearchResponse
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 

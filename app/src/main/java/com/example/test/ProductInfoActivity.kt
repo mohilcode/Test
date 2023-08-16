@@ -1,9 +1,12 @@
 package com.example.test
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.example.test.api.RakutenAPIClient
 import com.example.test.api.RakutenResponse
@@ -14,10 +17,12 @@ import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
 import com.example.test.api.AsinAPIClient
 import com.example.test.api.AsinProductResponse
-import com.example.test.api.AsinSearchResponse
 import com.example.test.api.GptApiClient
 import com.example.test.api.TajimayaAPIClient
 import com.example.test.api.TajimayaResponse
+import androidx.browser.customtabs.CustomTabsIntent
+import android.net.Uri
+
 
 
 class ProductInfoActivity : AppCompatActivity() {
@@ -28,7 +33,6 @@ class ProductInfoActivity : AppCompatActivity() {
     private val asinApiClient = AsinAPIClient()
     private val tajimayaApiClient = TajimayaAPIClient()
     private val gptApiClient = GptApiClient()
-    private var imageUrl: String? = null
     private var isFetchSuccessful = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,9 +40,10 @@ class ProductInfoActivity : AppCompatActivity() {
         binding = ActivityProductInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        imageUrl = intent.getStringExtra("image_url")
+        val imageUrl = intent.getStringExtra("image_url")
         val actualImageUrl = intent.getStringExtra("actual_image_url")
         val barcodeValue = intent.getStringExtra("barcode_value")
+        val translatedUrl = "https://translate.google.com/translate?hl=en&sl=auto&tl=en&u=${Uri.encode(imageUrl)}"
 
         if (actualImageUrl != null) {
             Picasso.get()
@@ -47,6 +52,11 @@ class ProductInfoActivity : AppCompatActivity() {
         }
 
         binding.progressBar.visibility = View.VISIBLE
+
+        binding.learnMore.setOnClickListener {
+            openCustomTabOrFallback(translatedUrl)
+        }
+
         fetchProductInfo(barcodeValue ?: "")
     }
 
@@ -63,26 +73,79 @@ class ProductInfoActivity : AppCompatActivity() {
                     val tajimayaResponse = tajimayaApiClient.fetchProductInfo(barcodeValue)
                     if (tajimayaResponse != null) {
                         displayProductInfo(tajimayaResponse)
-                    } else {
-                        val asinResponse = asinApiClient.fetchProductInfo(barcodeValue)
-                        displayProductInfo(asinResponse)
-                    }
+                    }  else {
+                            handleFailedFetch()
+                        }
                 }
             }
+        }
+    }
+
+//else {
+//    val asinResponse = asinApiClient.fetchProductInfo(barcodeValue)
+//    if (asinResponse != null) {
+//        displayProductInfo(asinResponse)
+//    }
+//}
+
+    private fun isChromeCustomTabsSupported(context: Context, url: String): Boolean {
+        val intent = Intent("android.intent.action.VIEW", Uri.parse(url))
+        val packageManager = context.packageManager
+        val resolvedActivities = packageManager.queryIntentActivities(intent, 0)
+        for (info in resolvedActivities) {
+            if (info.activityInfo.packageName == "com.android.chrome") {
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun openCustomTabOrFallback(url: String?) {
+        url?.let {
+            if (isChromeCustomTabsSupported(this, url)) {
+                val customTabsIntent = CustomTabsIntent.Builder().build()
+                customTabsIntent.launchUrl(this, Uri.parse(url))
+            } else {
+                // Fallback to the default browser
+                openWebView(url)
+            }
+        }
+    }
+
+
+
+//    private fun openCustomTab(url: String?) {
+//        url?.let {
+//            val customTabsIntent = CustomTabsIntent.Builder().build()
+//            customTabsIntent.launchUrl(this, Uri.parse(it))
+//        }
+//    }
+
+    private fun handleFailedFetch() {
+        binding.progressBar.visibility = View.GONE
+        Toast.makeText(this, "Couldn't find information", Toast.LENGTH_LONG).show()
+        binding.learnMore.visibility = View.VISIBLE
+    }
+
+    private fun openWebView(url: String?) {
+        url?.let {
+            val intent = Intent(this, WebViewActivity::class.java)
+            intent.putExtra("URL", it)
+            startActivity(intent)
         }
     }
 
     private fun displayProductInfo(response: Any?) {
         response?.let {
             isFetchSuccessful = true
+            Toast.makeText(this, "Data retrieved successfully!", Toast.LENGTH_SHORT).show()
             val (productName, productDescription) = when (it) {
-                is RakutenResponse -> Pair(it.itemName, it.itemCaption)
                 is YahooResponse -> Pair(it.name, it.description)
+                is RakutenResponse -> Pair(it.itemName, it.itemCaption)
                 is TajimayaResponse -> {
-                    Log.d("ProductInfoActivity", "Tajimaya response: ${it.productName}, ${it.productDescription}")
                     Pair(it.productName, it.productDescription)
                 }
-                is AsinProductResponse -> Pair(it.product.title, it.product.description)
+//                is AsinProductResponse -> Pair(it.product.title, it.product.description)
                 else -> return
             }
             lifecycleScope.launch {

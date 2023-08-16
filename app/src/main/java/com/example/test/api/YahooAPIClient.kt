@@ -1,6 +1,5 @@
 package com.example.test.api
 
-import android.util.Log
 import com.example.test.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

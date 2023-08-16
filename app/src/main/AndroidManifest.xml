@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <queries>
+        <package android:name="com.android.chrome" />
+    </queries>
 
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
 
-    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -27,6 +30,7 @@
             android:exported="false" />
 <!--        <activity android:name=".api.TestActivity" />-->
 <!--        android:name=".MainActivity"-->
+        <activity android:name=".WebViewActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -36,6 +40,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
 
     </application>
 
