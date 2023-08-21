@@ -15,8 +15,6 @@ class TestActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Launch the coroutine on the IO thread
         CoroutineScope(Dispatchers.IO).launch {
             fetchDataFromServer()
         }
@@ -46,7 +44,6 @@ class TestActivity : AppCompatActivity() {
             connection.disconnect()
         }
 
-        // Switch to the main thread to log the data
         CoroutineScope(Dispatchers.Main).launch {
             Log.d("JSON_TAG", "API Key: $apiKey")
         }

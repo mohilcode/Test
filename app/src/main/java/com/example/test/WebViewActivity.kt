@@ -22,7 +22,6 @@ class WebViewActivity : AppCompatActivity() {
         if (url != null) {
             webView.loadUrl(url)
         } else {
-            // Handle the error
             finish()
         }
     }
@@ -35,7 +34,6 @@ class WebViewActivity : AppCompatActivity() {
                 view: WebView?,
                 request: WebResourceRequest?
             ): Boolean {
-                // Return false to not override URL loading
                 return false
             }
         }

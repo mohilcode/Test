@@ -13,16 +13,18 @@ import java.net.URL
 import org.json.JSONObject
 
 interface GptApi {
-    suspend fun translate(text: String): GptResponse?
+    suspend fun translate(text: String, language: String): GptResponse?
 }
 
 class GptApiClient: GptApi {
 
     @OptIn(BetaOpenAI::class)
-    override suspend fun translate(text: String): GptResponse? = withContext(Dispatchers.IO) {
+    override suspend fun translate(text: String, language: String): GptResponse? = withContext(Dispatchers.IO) {
         val apikey = fetchGptApiKey() ?: return@withContext null
         val openAI = OpenAI(apikey)
-        val instruction = "Condense and translate the product's name and description into one short English sentence. Format: 'Product Name: Product Description'. Emphasize essential features; disregard quantity, packaging, or other non-essential details. If no description is available, provide only the translated product name."
+        val instruction = "Condense and translate the product's name and description into one short $language sentence. " +
+                "Format: 'Product Name: Product Description'. Emphasize essential features; disregard quantity, packaging, " +
+                "or other non-essential details. If no description is available, provide only the translated product name."
         val userMessage = "$instruction\n$text"
 
         try {

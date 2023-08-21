@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="FloatingBottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView">
+    <item name="elevation">0dp</item>
+    <item name="android:background">@drawable/floating_nav_background</item>
+</style>
+</resources>
