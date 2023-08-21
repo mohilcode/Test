@@ -32,8 +32,8 @@ class TypeWriterTextView(context: Context, attrs: AttributeSet) : AppCompatTextV
     }
 
     fun reset() {
-        stopTyping()    // Stop the ongoing typing
-        text = ""      // Clear the content
+        stopTyping()
+        text = ""
     }
 
 }

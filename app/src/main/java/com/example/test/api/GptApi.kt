@@ -22,7 +22,7 @@ class GptApiClient: GptApi {
     override suspend fun translate(text: String, language: String): GptResponse? = withContext(Dispatchers.IO) {
         val apikey = fetchGptApiKey() ?: return@withContext null
         val openAI = OpenAI(apikey)
-        val instruction = "Condense and translate the product's name and description into one short $language sentence. " +
+        val instruction = "Condense and translate the product's name and description into one short $language language sentence. " +
                 "Format: 'Product Name: Product Description'. Emphasize essential features; disregard quantity, packaging, " +
                 "or other non-essential details. If no description is available, provide only the translated product name."
         val userMessage = "$instruction\n$text"
