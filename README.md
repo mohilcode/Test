@@ -2,7 +2,7 @@
 
 ShopSmartScan is an innovative Android app aimed at helping foreigners in Japan understand product details easily. This app lets users scan the barcode of any item and presents the product's information in the English language. ShopSmartScan is developed using Kotlin and has been designed with the primary aim of breaking the language barrier for foreigners when shopping in Japan.
 
-This app currently supports a variety of products, leveraging various e-commerce platforms like Rakuten, Amazon, Yahoo Shopping, etc., to pull relevant product information. In the future, we aim to add more websites and broaden the product information database. 
+This app currently supports a variety of products, leveraging various e-commerce platforms like Rakuten, Amazon, Yahoo Shopping, etc., to pull relevant product information. In the future, I aim to add more websites and broaden the product information database. 
 
 ## Demo
 
@@ -34,7 +34,7 @@ To request access to the APK, please visit [here](https://forms.gle/a1SdCeoS7CwA
 - **UI/UX Improvements:** Ongoing improvements to the user interface and user experience to make the product recognition process seamless.
 - **More Websites:** Planning to include more websites for wider product information coverage.
 - **Ingredient Recognition:** Looking to introduce an ingredient listing feature for food items, assisting vegetarians/vegans in their food choices.
-- **Multi-Language Support:** Though currently supporting only English, we plan to include more languages in the future.
+- **Multi-Language Support:** Though currently supporting only English, I plan to include more languages in the future.
 
 ## Support
 
