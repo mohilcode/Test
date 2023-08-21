@@ -6,6 +6,7 @@ import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection
 import java.net.URL
 import org.json.JSONObject
+import java.util.concurrent.TimeoutException
 
 class TajimayaAPIClient : TajimayaAPI {
 
@@ -17,6 +18,17 @@ class TajimayaAPIClient : TajimayaAPI {
         val connection = url.openConnection() as HttpURLConnection
 
         try {
+            val responseCode = connection.responseCode
+            if (responseCode != HttpURLConnection.HTTP_OK) {
+                if (responseCode == 408) {
+                    Log.e("TajimayaAPIClient", "Request timed out (408).")
+                    throw TimeoutException("Request timed out.")
+                } else {
+                    Log.e("TajimayaAPIClient", "Received HTTP error: $responseCode")
+                    throw Exception("HTTP error: $responseCode")
+                }
+            }
+
             connection.inputStream.bufferedReader().use {
                 val json = it.readText()
                 Log.d("TajimayaAPIClient", "Received JSON response: $json")
@@ -27,6 +39,8 @@ class TajimayaAPIClient : TajimayaAPI {
 
                 return@withContext TajimayaResponse(productName, productDescription)
             }
+        } catch (e: TimeoutException) {
+            Log.e("TajimayaAPIClient", "Error: Request timed out.", e)
         } catch (e: Exception) {
             Log.e("TajimayaAPIClient", "Error occurred while fetching product info", e)
             e.printStackTrace()
@@ -37,3 +51,4 @@ class TajimayaAPIClient : TajimayaAPI {
         return@withContext null
     }
 }
+

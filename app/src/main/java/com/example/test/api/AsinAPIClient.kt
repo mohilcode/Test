@@ -53,12 +53,13 @@ class AsinAPIClient {
 
         val searchUrl = "$baseUrl/request?api_key=$apiKey&type=search&amazon_domain=amazon.co.jp&search_term=$barcode"
         val searchResponse = performRequest(searchUrl)
-
+        Log.d("ASIN", "Asin: $searchResponse")
         if (searchResponse != null) {
             if (searchResponse.has("search_results")) {
                 val searchResults = searchResponse.getJSONArray("search_results")
                 if (searchResults.length() > 0) {
                     val asin = searchResults.getJSONObject(0).getString("asin")
+                    Log.d("ASIN", "Asin: $asin")
                     val productUrl =
                         "$baseUrl/request?api_key=$apiKey&type=product&amazon_domain=amazon.co.jp&asin=$asin"
 
@@ -94,6 +95,7 @@ class AsinAPIClient {
                 }
             }
         } catch (e: Exception) {
+            Log.e("ASINAPIClient", "Error occurred while fetching product info", e)
             e.printStackTrace()
         }
 

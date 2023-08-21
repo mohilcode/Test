@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/nav_scan"
+        android:title="Scan"
+        android:icon="@drawable/scan"
+        app:iconTint="@color/nav_item_icon_tint"
+        app:iconTintMode="src_in" />
+
+    <item
+        android:id="@+id/nav_home"
+        android:title="Home"
+        android:icon="@drawable/home"
+        app:iconTint="@color/nav_item_icon_tint"
+        app:iconTintMode="src_in" />
+
+    <item
+        android:id="@+id/nav_language"
+        android:title="Language"
+        android:icon="@drawable/language"
+        app:iconTint="@color/nav_item_icon_tint"
+        app:iconTintMode="src_in" />
+
+
+</menu>

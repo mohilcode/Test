@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="translucent_color">#40FECEFE</color>
+    <color name="translucent_white">#C0FFFFFF</color>
+    <color name="ripple_effect">#33000000</color>
+    <color name="color_selected">#33000000</color>
+
+
 </resources>
